@@ -1,0 +1,32 @@
+{
+  "name": "extended",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "Handy methods to extend the native Request and Response objects",
+  "source": "src/index.ts",
+  "exports": {
+    "require": "./dist/extended.cjs",
+    "default": "./dist/extended.modern.js"
+  },
+  "main": "./dist/extended.cjs",
+  "module": "./dist/extended.module.js",
+  "unpkg": "./dist/extended.umd.js",
+  "scripts": {
+    "build": "microbundle",
+    "dev": "microbundle watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/giovannibenussi/extended.git"
+  },
+  "author": "Giovanni Benussi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/giovannibenussi/extended/issues"
+  },
+  "homepage": "https://github.com/giovannibenussi/extended#readme",
+  "dependencies": {
+    "microbundle": "^0.15.0"
+  }
+}
