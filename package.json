@@ -14,7 +14,7 @@
   "scripts": {
     "build": "microbundle",
     "dev": "microbundle watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,14 @@
   },
   "homepage": "https://github.com/giovannibenussi/extended#readme",
   "dependencies": {
+    "jest-environment-miniflare": "^2.4.0",
     "microbundle": "^0.15.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.5.1",
+    "jest": "^28.1.0",
+    "ts-jest": "^28.0.2",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.4"
   }
 }
