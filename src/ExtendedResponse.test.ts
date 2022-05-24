@@ -23,3 +23,19 @@ describe("get", () => {
     expect(res.get("Content-Type")).toBe("application/json");
   });
 });
+
+describe("json", () => {
+  test("encodes a json object and sets the content type to json", async () => {
+    const response = ExtendedResponse().json({ user: "giovannibenussi" });
+
+    expect(await response.text()).toBe('{"user":"giovannibenussi"}');
+    expect(response.get("Content-Type")).toBe("application/json");
+  });
+
+  test("encodes null and sets the content type to json", async () => {
+    const response = ExtendedResponse().json(null);
+
+    expect(await response.text()).toBe("null");
+    expect(response.get("Content-Type")).toBe("application/json");
+  });
+});
