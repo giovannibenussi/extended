@@ -28,7 +28,8 @@
   "homepage": "https://github.com/giovannibenussi/extended#readme",
   "dependencies": {
     "jest-environment-miniflare": "^2.4.0",
-    "microbundle": "^0.15.0"
+    "microbundle": "^0.15.0",
+    "mime-types": "^2.1.35"
   },
   "devDependencies": {
     "@types/jest": "^27.5.1",
