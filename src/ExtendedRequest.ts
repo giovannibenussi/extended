@@ -1,7 +1,3 @@
-type ExtendedRequestType = Request & {
-  get: (string) => string;
-};
-
 class ExtendedRequest {
   originalRequest: Request;
 
