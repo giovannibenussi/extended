@@ -2,11 +2,23 @@ type ExtendedRequestType = Request & {
   get: (string) => string;
 };
 
-function ExtendedRequest(res): ExtendedRequestType {
-  const prototype = Object.create(Request.prototype);
+class ExtendedRequest {
+  originalRequest: Request;
 
-  Object.setPrototypeOf(res, prototype);
-  return res;
+  constructor(originalRequest: Request) {
+    this.originalRequest = originalRequest;
+  }
+
+  param(name: string): Promise<string | undefined> {
+    return this.originalRequest
+      .json()
+      .then((params) => {
+        return params[name];
+      })
+      .catch((error) => {
+        undefined;
+      });
+  }
 }
 
 export { ExtendedRequest };

@@ -1,8 +1,14 @@
 import { ExtendedRequest } from "./ExtendedRequest";
-import { handleRequest } from ".";
 
-test("forwards method calls to Request", () => {
-  const url = "https://giovannibenussi.com";
-  const req = ExtendedRequest(new Request(url, { method: "POST" }));
-  expect(req.method).toBe("POST");
+describe(".param", () => {
+  test.only("returns the corresponding parameter", async () => {
+    const request = new Request("https://giovannibenussi.com", {
+      body: '{"first_name":"Giovanni"}',
+      method: "POST",
+    });
+    const req = new ExtendedRequest(request);
+
+    expect(await req.param("first_name")).toBe("Giovanni");
+    expect(await req.param("not_defined")).toBe(undefined);
+  });
 });

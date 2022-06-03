@@ -11,6 +11,7 @@
   "main": "./dist/extended.cjs",
   "module": "./dist/extended.module.js",
   "unpkg": "./dist/extended.umd.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "microbundle",
     "dev": "microbundle watch",
@@ -29,7 +30,7 @@
   "dependencies": {
     "jest-environment-miniflare": "^2.4.0",
     "microbundle": "^0.15.0",
-    "mime-types": "^2.1.35"
+    "mime": "^3.0.0"
   },
   "devDependencies": {
     "@types/jest": "^27.5.1",

@@ -1,20 +1,14 @@
-import { lookup } from "mime-types";
-
-type ExtendedResponseType = Response & {
-  //statusCode: number;
-  get: (string) => string;
-  json: (object) => ExtendedResponseType;
-
-  status: (number) => ExtendedResponseType;
-};
+// @ts-ignore
+import { getType } from "mime/lite";
 
 class ExtendedResponse {
   statusCode: number;
   headers: Headers;
-  originalResponse: Response;
+  originalResponse: Response | undefined;
 
   constructor(originalResponse?: Response) {
     this.originalResponse = originalResponse;
+    this.statusCode = 200;
     if (originalResponse) {
       this.headers = originalResponse.headers;
     } else {
@@ -22,12 +16,12 @@ class ExtendedResponse {
     }
   }
 
-  get(name) {
+  get(name: string) {
     return this.headers.get(name);
   }
 
   set(...params: [string, string] | [object]) {
-    if (typeof params[0] === "object") {
+    if (params.length === 1) {
       for (const [name, value] of Object.entries(params[0])) {
         this.headers.set(name, value);
       }
@@ -39,7 +33,7 @@ class ExtendedResponse {
     return this;
   }
 
-  setIfEmpty(name, value) {
+  setIfEmpty(name:string, value:string) {
     if (!this.get(name)) {
       this.set(name, value);
     }
@@ -47,19 +41,19 @@ class ExtendedResponse {
     return this;
   }
 
-  status(value) {
+  status(value:number) {
     this.statusCode = value;
     return this;
   }
 
-  buildResponse(body) {
+  buildResponse(body:any) {
     return new Response(body, {
       status: this.statusCode,
       headers: this.headers,
     });
   }
 
-  send(body): Response {
+  send(body:any): Response {
     switch (typeof body) {
       case "string":
         this.setIfEmpty("Content-Type", "text/html;charset=UTF-8");
@@ -69,13 +63,17 @@ class ExtendedResponse {
     }
   }
 
-  json(body) {
+  json(body:any) {
     this.setIfEmpty("Content-Type", "application/json");
     return this.buildResponse(JSON.stringify(body));
   }
 
-  type(value) {
-    this.set("Content-Type", lookup(value));
+  error(body:any): Response {
+    return this.status(500).send(body);
+  }
+
+  type(value:string) {
+    this.set("Content-Type", getType(value));
     return this;
   }
 }
