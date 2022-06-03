@@ -8,7 +8,7 @@ This library provides a lot of utilities, but in the end, all you get is a
 native `Resquest` and `Response` objects to have maximum compatibility with all
 platforms including [CloudFlare Workers](https://developers.cloudflare.com/workers/), [Node.js](https://nodejs.org/en/), and even [Service Workers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API)!
 
-```
+```js
 const res = new ExtendedResponse()
 res.status(500).json({ user: "giovannibenussi" })
 ```
@@ -18,7 +18,7 @@ framework of choice, so you'll rarely call the constructor.
 
 You can perform a redirect by calling the `.redirect` method:
 
-```
+```js
 res.redirect('http://giovannibenussitest.com', 307)
 ```
 
