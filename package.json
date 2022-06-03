@@ -1,5 +1,5 @@
 {
-  "name": "extended",
+  "name": "wkrk-extended",
   "type": "module",
   "version": "0.0.1",
   "description": "Handy methods to extend the native Request and Response objects",
