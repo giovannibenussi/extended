@@ -1,7 +1,7 @@
 {
   "name": "wkrk-extended",
   "type": "module",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Handy methods to extend the native Request and Response objects",
   "source": "src/index.ts",
   "main": "./dist/index.js",
