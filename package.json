@@ -4,11 +4,11 @@
   "version": "0.0.4",
   "description": "Handy methods to extend the native Request and Response objects",
   "source": "src/index.ts",
+  "main": "./dist/index.js",
   "exports": {
     "require": "./dist/extended.cjs",
     "default": "./dist/extended.modern.js"
   },
-  "main": "./dist/extended.cjs",
   "module": "./dist/extended.module.js",
   "unpkg": "./dist/extended.umd.js",
   "types": "./dist/index.d.ts",
