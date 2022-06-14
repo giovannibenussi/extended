@@ -28,13 +28,9 @@ describe("statusCode", () => {
 
 describe("get", () => {
   test("returns the corresponding HTTP header", () => {
-    const res = new ExtendedResponse(
-      new Response("", {
-        headers: new Headers({
-          "Content-Type": "application/json",
-        }),
-      })
-    );
+    const res = new ExtendedResponse();
+
+    res.set("Content-Type", "application/json");
 
     expect(res.get("Content-Type")).toBe("application/json");
   });
@@ -153,7 +149,93 @@ describe("status", () => {
   });
 });
 
-describe("mime", () => {
+describe("redirect", () => {
+  test("returns a Location header and a 302 status code by default", async () => {
+    const response = new ExtendedResponse();
+
+    let res = response.redirect("https://www.giovannibenussi.com/");
+
+    expect(res.status).toBe(302);
+    expect(res.headers.get("Location")).toBe(
+      "https://www.giovannibenussi.com/"
+    );
+  });
+
+  test("supports a custom status code", async () => {
+    const response = new ExtendedResponse();
+
+    let res = response.redirect("https://www.giovannibenussi.com/", 307);
+
+    expect(res.status).toBe(307);
+    expect(res.headers.get("Location")).toBe(
+      "https://www.giovannibenussi.com/"
+    );
+  });
+
+  test("supports relative paths", async () => {
+    const request = new Request("https://www.giovannibenussi.com");
+    const response = new ExtendedResponse({ request });
+
+    let res = response.redirect("posts/latest", 307);
+
+    expect(res.status).toBe(307);
+    expect(res.headers.get("Location")).toBe(
+      "https://www.giovannibenussi.com/posts/latest"
+    );
+  });
+
+  test("supports absolute paths when the base url itself has paths", async () => {
+    const request = new Request("https://www.giovannibenussi.com/api/users");
+    const response = new ExtendedResponse({ request });
+
+    let res = response.redirect("/posts", 307);
+
+    expect(res.status).toBe(307);
+    expect(res.headers.get("Location")).toBe(
+      "https://www.giovannibenussi.com/posts"
+    );
+  });
+
+  test("supports relative paths when the base url itself has paths", async () => {
+    const request = new Request("https://www.giovannibenussi.com/api/user/");
+    const response = new ExtendedResponse({ request });
+
+    let res = response.redirect("./posts", 307);
+
+    expect(res.status).toBe(307);
+    expect(res.headers.get("Location")).toBe(
+      "https://www.giovannibenussi.com/api/user/posts"
+    );
+  });
+
+  test("considers urls that don't end with a slash to be part of the current 'directory'", async () => {
+    const request = new Request("https://www.giovannibenussi.com/api/user");
+    const response = new ExtendedResponse({ request });
+
+    let res = response.redirect("./posts", 307);
+
+    expect(res.status).toBe(307);
+    expect(res.headers.get("Location")).toBe(
+      "https://www.giovannibenussi.com/api/posts"
+    );
+  });
+
+  test("persists query parameters", async () => {
+    const response = new ExtendedResponse();
+
+    let res = response.redirect(
+      "https://www.giovannibenussi.com/?name=giovanni",
+      307
+    );
+
+    expect(res.status).toBe(307);
+    expect(res.headers.get("Location")).toBe(
+      "https://www.giovannibenussi.com/?name=giovanni"
+    );
+  });
+});
+
+describe("type", () => {
   test("sets the Content-Type header according to a given value", async () => {
     const response = new ExtendedResponse();
 

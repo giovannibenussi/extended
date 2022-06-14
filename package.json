@@ -4,13 +4,13 @@
   "version": "0.0.6",
   "description": "Handy methods to extend the native Request and Response objects",
   "source": "src/index.ts",
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
   "exports": {
-    "require": "./dist/extended.cjs",
-    "default": "./dist/extended.modern.js"
+    "require": "./dist/index.cjs",
+    "default": "./dist/index.modern.js"
   },
-  "module": "./dist/extended.module.js",
-  "unpkg": "./dist/extended.umd.js",
+  "module": "./dist/index.module.js",
+  "unpkg": "./dist/index.umd.js",
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "microbundle",
@@ -30,7 +30,8 @@
   "dependencies": {
     "jest-environment-miniflare": "^2.4.0",
     "microbundle": "^0.15.0",
-    "mime": "^3.0.0"
+    "mime": "^3.0.0",
+    "url-toolkit": "^2.2.5"
   },
   "devDependencies": {
     "@types/jest": "^27.5.1",

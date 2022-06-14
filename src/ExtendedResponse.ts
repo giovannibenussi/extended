@@ -1,19 +1,23 @@
 // @ts-ignore
 import { getType } from "mime/lite";
+// @ts-ignore
+import * as URLToolkit from "url-toolkit";
+
+type ExtendedResponseConstructorType =
+  | undefined
+  | {
+      request?: Request;
+    };
 
 class ExtendedResponse {
   statusCode: number;
   headers: Headers;
-  originalResponse: Response | undefined;
+  originalRequest: Request | undefined;
 
-  constructor(originalResponse?: Response) {
-    this.originalResponse = originalResponse;
+  constructor(params?: ExtendedResponseConstructorType) {
     this.statusCode = 200;
-    if (originalResponse) {
-      this.headers = originalResponse.headers;
-    } else {
-      this.headers = new Headers();
-    }
+    this.originalRequest = params?.request;
+    this.headers = new Headers();
   }
 
   get(name: string) {
@@ -33,7 +37,7 @@ class ExtendedResponse {
     return this;
   }
 
-  setIfEmpty(name:string, value:string) {
+  setIfEmpty(name: string, value: string) {
     if (!this.get(name)) {
       this.set(name, value);
     }
@@ -41,19 +45,19 @@ class ExtendedResponse {
     return this;
   }
 
-  status(value:number) {
+  status(value: number) {
     this.statusCode = value;
     return this;
   }
 
-  buildResponse(body:any) {
+  buildResponse(body: any) {
     return new Response(body, {
       status: this.statusCode,
       headers: this.headers,
     });
   }
 
-  send(body:any): Response {
+  send(body: any): Response {
     switch (typeof body) {
       case "string":
         this.setIfEmpty("Content-Type", "text/html;charset=UTF-8");
@@ -63,16 +67,28 @@ class ExtendedResponse {
     }
   }
 
-  json(body:any) {
+  json(body: any) {
     this.setIfEmpty("Content-Type", "application/json");
     return this.buildResponse(JSON.stringify(body));
   }
 
-  error(body:any): Response {
+  error(body: any): Response {
     return this.status(500).send(body);
   }
 
-  type(value:string) {
+  baseURL() {
+    return this.originalRequest?.url || "";
+  }
+
+  redirect(redirectURL: string, status?: number) {
+    const url = URLToolkit.buildAbsoluteURL(this.baseURL(), redirectURL, {
+      alwaysNormalize: true,
+    });
+
+    return Response.redirect(url, status);
+  }
+
+  type(value: string) {
     this.set("Content-Type", getType(value));
     return this;
   }
