@@ -68,10 +68,11 @@ describe("send", () => {
       );
     });
 
-    test("respects previously assigned content types and status code", async () => {
+    test.only("respects previously assigned content types and status code", async () => {
       const response = new ExtendedResponse();
       response.set("Content-Type", "text/png");
       const res = response.status(500).send("<p>hello world!</p>");
+      console.log(response.constructor.name);
 
       expect(await res.text()).toBe("<p>hello world!</p>");
       expect(res.headers.get("Content-Type")).toBe("text/png");

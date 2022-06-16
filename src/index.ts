@@ -1,2 +1,2 @@
-export { ExtendedRequest } from "./ExtendedRequest";
+export { extendedRequest, ExtendedRequestType } from "./ExtendedRequest";
 export { ExtendedResponse } from "./ExtendedResponse";
